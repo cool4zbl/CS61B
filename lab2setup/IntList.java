@@ -57,12 +57,15 @@ public class IntList {
      * 2. Values in L cannot change!.
      */
     public static IntList incrList(IntList L, int x) {
-        int size = L.size();
-        IntList Q = new IntList(L.get(size - 1) + x, null);
-        int i = size - 2;
-        while (i >= 0) {
-            Q = new IntList(L.get(i) + x, Q);
-            i--;
+        if (L == null) return null;
+
+        IntList Q = new IntList(L.first + x, null);
+        IntList p = Q;
+        L = L.rest;
+        while (L != null) {
+            p.rest = new IntList(L.first + x, null);
+            L = L.rest;
+            p = p.rest;
         }
         return Q;
     }
@@ -73,12 +76,12 @@ public class IntList {
      * 3. with recursion.
      */
     public static IntList incrList2(IntList L, int x) {
-        if (L == null) return L;
+        if (L == null) return null;
 
-//        return new IntList(L.first + x, incrList2(L.rest, x));
-        IntList incr = new IntList(L.first + x, null);
-        incr.rest = incrList2(L.rest, x);
-        return incr;
+        return new IntList(L.first + x, incrList2(L.rest, x));
+//        IntList incr = new IntList(L.first + x, null);
+//        incr.rest = incrList2(L.rest, x);
+//        return incr;
     }
 
     /**
@@ -90,12 +93,54 @@ public class IntList {
      * @return IntList
      */
     public static IntList dincrList(IntList L, int x) {
-        if (L == null) {
-            return L;
-        }
+        if (L == null) return null;
         L.first += x;
         dincrList(L.rest, x);
         return L;
+    }
+
+    /**
+     * Implement square and squareDestructive which are static methods that both
+     * take in an IntList L and return an IntList with its integer values all squared.
+     * square does this non-destructively with recursion by creating new IntLists while
+     * squareDestructive uses a recursive approach to change the instance variables of
+     * the input IntList L.
+     *
+     * @return an IntList with its integer values all squared.
+     */
+    public static IntList square(IntList L) {
+        if (L == null) return null;
+
+        return new IntList(L.first * L.first, square(L.rest));
+    }
+
+    public static IntList squareIterative(IntList L) {
+        if (L == null) return null;
+
+        IntList Q = new IntList(L.first * L.first, null);
+        IntList p = Q;
+        L = L.rest;
+        while (L != null) {
+            p.rest = new IntList(L.first * L.first, null);
+            L = L.rest;
+            p = p.rest;
+        }
+        return Q;
+    }
+
+    public static IntList squareDestructive(IntList L) {
+        if (L == null) return null;
+
+        L.first *= L.first;
+        squareDestructive(L.rest);
+        return L;
+    }
+
+    public static void dSquareList(IntList L) {
+        while (L != null) {
+            L.first *= L.first;
+            L = L.rest;
+        }
     }
 
     public String toString() {
@@ -109,8 +154,6 @@ public class IntList {
     }
 
     public static void main(String[] args) {
-//        int n = Integer.parseInt(args[0]);
-
         IntList L = new IntList(5, null);
         L = new IntList(6, L);
         L = new IntList(7, L);
@@ -122,7 +165,18 @@ public class IntList {
         IntList Q2 = IntList.incrList2(L, 4);
         System.out.println(Q2);
         IntList Q3 = IntList.dincrList(L, 5);
-        System.out.println("new L" + L);
         System.out.println(Q3);
+
+        IntList Q4 = IntList.square(L);
+        System.out.println(Q4);
+
+        IntList Q6 = IntList.squareIterative(L);
+        System.out.println("q6: " + Q6);
+        System.out.println("q6 L: " + L);
+
+        IntList Q5 = IntList.squareDestructive(L);
+        System.out.println(L);
+        System.out.println(Q5);
     }
+
 }
