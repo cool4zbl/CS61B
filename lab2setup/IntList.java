@@ -75,9 +75,10 @@ public class IntList {
     public static IntList incrList2(IntList L, int x) {
         if (L == null) return L;
 
-        IntList Q = new IntList(L.first + x, null);
-        Q.rest = incrList2(L.rest, x);
-        return Q;
+//        return new IntList(L.first + x, incrList2(L.rest, x));
+        IntList incr = new IntList(L.first + x, null);
+        incr.rest = incrList2(L.rest, x);
+        return incr;
     }
 
     /**
@@ -88,10 +89,15 @@ public class IntList {
      * @param x incremented value
      * @return IntList
      */
-//    public static IntList dincrList(IntList L, int x) {
-//        int size = L.size();
-//
-//    }
+    public static IntList dincrList(IntList L, int x) {
+        if (L == null) {
+            return L;
+        }
+        L.first += x;
+        dincrList(L.rest, x);
+        return L;
+    }
+
     public String toString() {
         int[] a = new int[this.size()];
         int cnt = 0;
@@ -115,5 +121,8 @@ public class IntList {
 
         IntList Q2 = IntList.incrList2(L, 4);
         System.out.println(Q2);
+        IntList Q3 = IntList.dincrList(L, 5);
+        System.out.println("new L" + L);
+        System.out.println(Q3);
     }
 }
