@@ -5,7 +5,7 @@ import java.util.Formatter;
  * with a large number of additional methods.
  *
  * @author P. N. Hilfinger, with some modifications by Josh Hug and melaniecebula
- *         [Do not modify this file.]
+ * [Do not modify this file.]
  */
 public class IntList {
     /**
@@ -29,7 +29,7 @@ public class IntList {
      * A List with null rest, and first = 0.
      */
     public IntList() {
-    /* NOTE: public IntList () { }  would also work. */
+        /* NOTE: public IntList () { }  would also work. */
         this(0, null);
     }
 
@@ -79,10 +79,30 @@ public class IntList {
      * Returns a list consisting of the elements of A followed by the
      * *  elements of B.  May modify items of A. Don't use 'new'.
      */
-
     public static IntList dcatenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        return null;
+        if (A == null) return B;
+        if (B == null) return A;
+
+        IntList p = A;
+        while (p.rest != null) {
+            p = p.rest;
+        }
+        p.rest = B;
+        return A;
+    }
+
+    public static IntList dcatenateRecursive(IntList A, IntList B) {
+        // base case
+        if (A == null) return B;
+        if (B == null) return A;
+
+        if (A.rest == null) {
+            A.rest = B;
+            return A;
+        }
+
+        dcatenate(A.rest, B);
+        return A;
     }
 
     /**
@@ -90,23 +110,32 @@ public class IntList {
      * * elements of B.  May NOT modify items of A.  Use 'new'.
      */
     public static IntList catenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        return null;
+        if (A == null) return B;
+        if (B == null) return A;
+
+        IntList p = new IntList(A.first, null);
+        if (A.rest == null) {
+            p.rest = B;
+            return p;
+        }
+        return new IntList(A.first, catenate(A.rest, B));
     }
 
+    public static IntList catenateIterative(IntList A, IntList B) {
+        if (A == null) return B;
+        if (B == null) return A;
 
-
-
-
-
-
-
-
-
-
-
-
-
+        IntList Q = new IntList(A.first, null);
+        IntList p = Q;
+        A = A.rest;
+        while (A != null) {
+            p.rest = new IntList(A.first, null);
+            A = A.rest;
+            p = p.rest;
+        }
+        p.rest = B;
+        return Q;
+    }
 
 
     /**
