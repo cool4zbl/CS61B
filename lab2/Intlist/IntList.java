@@ -101,7 +101,7 @@ public class IntList {
             return A;
         }
 
-        dcatenate(A.rest, B);
+        dcatenateRecursive(A.rest, B);
         return A;
     }
 
