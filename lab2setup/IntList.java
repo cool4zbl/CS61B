@@ -153,6 +153,13 @@ public class IntList {
         return Arrays.toString(a);
     }
 
+    public void addFirst(int x) {
+        IntList L = new IntList(first, rest);
+        L = new IntList(x, L);
+        this.first = L.first;
+        this.rest = L.rest;
+    }
+
     public static void main(String[] args) {
         IntList L = new IntList(5, null);
         L = new IntList(6, L);
@@ -177,6 +184,9 @@ public class IntList {
         IntList Q5 = IntList.squareDestructive(L);
         System.out.println(L);
         System.out.println(Q5);
+
+        L.addFirst(8);
+        System.out.println(L);
     }
 
 }
