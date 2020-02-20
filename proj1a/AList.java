@@ -13,6 +13,7 @@ public class AList {
      */
     public AList() {
         size = 0;
+        items = new int[100];
     }
 
     public AList(int s) {
@@ -21,14 +22,22 @@ public class AList {
     }
 
     /**
+     * Resizes the underlying array to the target capacity
+     */
+    private void resize(int capacity) {
+        /* copy array ? */
+        int[] nItems = new int[capacity];
+        System.arraycopy(items, 0, nItems, 0, size);
+        items = nItems;
+    }
+
+    /**
      * Inserts X into the back of the list.
      */
-    public void addLast(int x) {
-        int[] newItems = new int[size + 1];
-        if (size > 1) {
-            System.arraycopy(items, 0, newItems, 0, size);
+    public void insertBack(int x) {
+        if (size == items.length) {
+            resize(size * 2);
         }
-        items = newItems;
         items[size] = x;
         size += 1;
     }
@@ -63,11 +72,9 @@ public class AList {
     public int removeLast() {
         if (size == 0) throw new ArrayIndexOutOfBoundsException("Out of range");
 
-        int last = items[size - 1];
+        int last = getLast();
         size -= 1;
-        int[] newItems = new int[size];
-        System.arraycopy(items, 0, newItems, 0, size);
-        items = newItems;
+
         return last;
     }
 
