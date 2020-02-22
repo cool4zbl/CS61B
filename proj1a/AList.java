@@ -22,7 +22,7 @@ public class AList {
     }
 
     /**
-     * Resizes the underlying array to the target capacity
+     * Resize the underlying array to the target capacity
      */
     private void resize(int capacity) {
         /* copy array ? */
