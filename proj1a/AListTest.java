@@ -1,72 +1,83 @@
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
 /**
  * Performs some basic AList.
  *
  * @author blz
+ * @source https://github.com/Berkeley-CS61B/lectureCode-sp17/blob/master/lists4/naive/AListTest.java
  */
+
 public class AListTest {
 
-    /* Utility method for printing out empty checks. */
-    public static boolean checkEmpty(boolean expected, boolean actual) {
-        if (expected != actual) {
-            System.out.println("isEmpty() returned " + actual + ", but expected: " + expected);
-            return false;
-        }
-        return true;
+    @Test
+    public void testEmptySize() {
+        AList L = new AList();
+        assertEquals(0, L.size());
     }
 
-    /* Utility method for printing out empty checks. */
-    public static boolean checkSize(int expected, int actual) {
-        if (expected != actual) {
-            System.out.println("size() returned " + actual + ", but expected: " + expected);
-            return false;
-        }
-        return true;
+    @Test
+    public void testAddAndSize() {
+        AList L = new AList();
+        L.addLast(99);
+        L.addLast(99);
+        assertEquals(2, L.size());
     }
 
-    /* Prints a nice message based on whether a test passed.
-     * The \n means newline. */
-    public static void printTestStatus(boolean passed) {
-        if (passed) {
-            System.out.println("Test passed!\n");
-        } else {
-            System.out.println("Test failed!\n");
-        }
+
+    @Test
+    public void testAddAndGetLast() {
+        AList L = new AList();
+        L.addLast(99);
+        assertEquals(99, L.getLast());
+        L.addLast(36);
+        assertEquals(36, L.getLast());
     }
 
-    public static void addRemoveTest() {
 
-        System.out.println("Running add/remove test.");
+    @Test
+    public void testGet() {
+        AList L = new AList();
+        L.addLast(99);
+        assertEquals(99, L.get(0));
+        L.addLast(36);
+        assertEquals(99, L.get(0));
+        assertEquals(36, L.get(1));
+    }
 
-//        AList<Integer> arr = new AList<>();
-        AList arr = new AList();
-        boolean passed = checkEmpty(true, arr.isEmpty());
-        arr.addLast(2);
 
-        passed = checkSize(1, arr.size()) && passed;
-        passed = checkEmpty(false, arr.isEmpty()) && passed;
+    @Test
+    public void testRemove() {
+        AList L = new AList();
+        L.addLast(99);
+        assertEquals(99, L.get(0));
+        L.addLast(36);
+        assertEquals(99, L.get(0));
+        L.removeLast();
+        assertEquals(99, L.getLast());
+        L.addLast(100);
+        assertEquals(100, L.getLast());
+        assertEquals(2, L.size());
+    }
 
-        arr.addLast(4);
-        int last = arr.getLast();
-        passed = 4 == last && passed;
+    /**
+     * Tests insertion of a large number of items.
+     */
+    @Test
+    public void testMegaInsert() {
+        AList L = new AList();
+        int N = 1000000;
+        for (int i = 0; i < N; i += 1) {
+            L.addLast(i);
+        }
 
-        passed = checkSize(2, arr.size()) && passed;
-
-        arr.removeLast();
-        passed = checkSize(1, arr.size()) && passed;
-
-        arr.addLast(3);
-        int item = arr.get(1);
-        passed = item == 3 && passed;
-
-        arr.removeLast();
-        arr.removeLast();
-        passed = checkEmpty(true, arr.isEmpty()) && passed;
-
-        printTestStatus(passed);
-
+        for (int i = 0; i < N; i += 1) {
+            L.addLast(L.get(i));
+        }
     }
 
     public static void main(String[] args) {
-        addRemoveTest();
+        jh61b.junit.TestRunner.runTests("all", AListTest.class);
     }
 }
