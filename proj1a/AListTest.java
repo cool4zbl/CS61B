@@ -15,6 +15,7 @@ public class AListTest {
     public void testEmptySize() {
         AList L = new AList();
         assertEquals(0, L.size());
+        assertEquals(true, L.isEmpty());
     }
 
     @Test
