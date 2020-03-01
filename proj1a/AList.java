@@ -53,7 +53,9 @@ public class AList<Item> {
      * Gets the ith item in the list (0 is the front).
      */
     public Item get(int i) {
-        if (i < 0 || i >= size) throw new ArrayIndexOutOfBoundsException("out of size");
+        if (i < 0 || i >= size) {
+            throw new ArrayIndexOutOfBoundsException("out of size");
+        }
 
         return items[i];
     }
@@ -70,7 +72,9 @@ public class AList<Item> {
      * returns deleted item.
      */
     public Item removeLast() {
-        if (size == 0) throw new ArrayIndexOutOfBoundsException("Out of range");
+        if (size == 0) {
+            throw new ArrayIndexOutOfBoundsException("Out of range");
+        }
 
         Item last = getLast();
         items[size - 1] = null;

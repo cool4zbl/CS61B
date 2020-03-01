@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
  * Performs some basic AList.
  *
  * @author blz
- * @source https://github.com/Berkeley-CS61B/lectureCode-sp17/blob/master/lists4/naive/AListTest.java
+ * https://github.com/Berkeley-CS61B/lectureCode-sp17/blob/master/lists4/naive/AListTest.java
  */
 
 public class AListTest {

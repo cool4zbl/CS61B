@@ -32,18 +32,38 @@ public class ArrayDeque<T> {
     }
 
     /**
+     * computed the index immediately "before" a given index.
+     *
+     * @param index
+     * @return int index
+     */
+    private int minusOne(int index) {
+        return ((index - 1) + items.length) % items.length;
+    }
+
+    /**
+     * computed the index immediately "after" a given index.
+     *
+     * @param index
+     * @return int index
+     */
+    private int pulsOne(int index) {
+        return (index + 1) % items.length;
+    }
+
+
+    /**
      * Adds an item of type `T` to the front of the deque.
      *
      * @param item
      */
     public void addFirst(T item) {
         items[nextFirst] = item;
+
+        // resize();
         size++;
-        if (nextFirst == 0) {
-            nextFirst = items.length - 1;
-        } else {
-            nextFirst--;
-        }
+
+        nextFirst = minusOne(nextFirst);
     }
 
     /**
@@ -54,11 +74,8 @@ public class ArrayDeque<T> {
     public void addLast(T item) {
         items[nextLast] = item;
         size++;
-        if (nextLast == items.length - 1) {
-            nextLast = 0;
-        } else {
-            nextLast++;
-        }
+
+        nextLast = pulsOne(nextLast);
     }
 
     /**
@@ -68,15 +85,14 @@ public class ArrayDeque<T> {
      * @return T
      */
     public T removeFirst() {
-        T item = items[nextFirst];
-
-        if (nextFirst == items.length - 1) {
-            nextFirst = 0;
-        } else {
-            nextFirst++;
+        if (size == 0) {
+            return null;
         }
-        size--;
 
+        nextFirst = pulsOne(nextFirst);
+        T item = items[nextFirst];
+        // resize();
+        size--;
         return item;
     }
 
@@ -87,14 +103,13 @@ public class ArrayDeque<T> {
      * @return T
      */
     public T removeLast() {
-        T item = items[nextLast];
-        if (nextLast == 0) {
-            nextLast = items.length - 1;
-        } else {
-            nextLast--;
+        if (size == 0) {
+            return null;
         }
-        size--;
 
+        nextLast = minusOne(nextLast);
+        T item = items[nextLast];
+        size--;
         return item;
     }
 
@@ -108,7 +123,9 @@ public class ArrayDeque<T> {
      * @return T
      */
     public T get(int index) {
-        if (index < 0 || index >= size) return null;
+        if (index < 0 || index >= size) {
+            return null;
+        }
         return items[index];
     }
 
@@ -131,13 +148,5 @@ public class ArrayDeque<T> {
 
     public int size() {
         return size;
-    }
-
-    public int getNextFirst() {
-        return nextFirst;
-    }
-
-    public int getNextLast() {
-        return nextLast;
     }
 }
