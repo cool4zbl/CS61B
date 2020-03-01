@@ -34,30 +34,32 @@ public class LinkedListDeque<T> {
     /**
      * Creates a deep copy of `other`
      * if you change `other`, the new `LinkedListDeque` should not change as well.
+     * doesn't exists at sp18 proj https://sp18.datastructur.es/
      *
      * @param other
      */
-    public LinkedListDeque(LinkedListDeque other) {
-        sentinel = new StuffNode(null, null, null);
-        sentinel.next = sentinel;
-        sentinel.prev = sentinel;
-        size = 0;
-
-        /* Method 1
-        StuffNode p = other.sentinel.next;
-        while (p != other.sentinel) {
-            size += 1;
-            sentinel.prev.next = new StuffNode(sentinel.prev, p.item, sentinel);
-            sentinel.prev = sentinel.prev.next;
-            p = p.next;
-        }
-         */
-
-        /* Method 2 */
-        for (int i = 0; i < other.size(); i++) {
-            addLast((T) other.get(i));
-        }
-    }
+//    public LinkedListDeque(LinkedListDeque other) {
+//        sentinel = new StuffNode(null, null, null);
+//        sentinel.next = sentinel;
+//        sentinel.prev = sentinel;
+//        size = 0;
+//
+//        /* Method 1
+//        StuffNode p = other.sentinel.next;
+//        while (p != other.sentinel) {
+//            size += 1;
+//            sentinel.prev.next =
+//                 new StuffNode(sentinel.prev, p.item, sentinel);
+//            sentinel.prev = sentinel.prev.next;
+//            p = p.next;
+//        }
+//         */
+//
+//        /* Method 2 */
+//        for (int i = 0; i < other.size(); i++) {
+//            addLast((T) other.get(i));
+//        }
+//    }
 
     /**
      * Adds an item of type `T` to the front of the deque.
