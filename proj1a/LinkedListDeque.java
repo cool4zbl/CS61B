@@ -7,11 +7,11 @@
  */
 public class LinkedListDeque<T> {
     private class StuffNode {
-        public StuffNode prev;
-        public T item;
-        public StuffNode next;
+        private StuffNode prev;
+        private T item;
+        private StuffNode next;
 
-        public StuffNode(StuffNode n, T i, StuffNode p) {
+        private StuffNode(StuffNode p, T i, StuffNode n) {
             prev = p;
             item = i;
             next = n;
@@ -67,7 +67,8 @@ public class LinkedListDeque<T> {
     public void addFirst(T item) {
         size += 1;
 
-        sentinel.next.prev = new StuffNode(sentinel, item, sentinel.next);
+        sentinel.next.prev =
+                new StuffNode(sentinel, item, sentinel.next);
         sentinel.next = sentinel.next.prev;
     }
 
@@ -78,7 +79,9 @@ public class LinkedListDeque<T> {
      */
     public void addLast(T item) {
         size += 1;
-        sentinel.prev.next = new StuffNode(sentinel.prev, item, sentinel);
+
+        sentinel.prev.next =
+                new StuffNode(sentinel.prev, item, sentinel);
         sentinel.prev = sentinel.prev.next;
     }
 
@@ -123,12 +126,15 @@ public class LinkedListDeque<T> {
      * @return T
      */
     public T removeFirst() {
-        if (size == 0) return null;
+        if (size == 0) {
+            return null;
+        }
         size -= 1;
         StuffNode first = sentinel.next;
+        T item = first.item;
         sentinel.next = first.next;
         sentinel.next.prev = sentinel;
-        return first.item;
+        return item;
     }
 
     /**
@@ -138,7 +144,9 @@ public class LinkedListDeque<T> {
      * @return T
      */
     public T removeLast() {
-        if (size == 0) return null;
+        if (size == 0) {
+            return null;
+        }
         size -= 1;
         StuffNode last = sentinel.prev;
         sentinel.prev = last.prev;
@@ -156,7 +164,9 @@ public class LinkedListDeque<T> {
      * @return T
      */
     public T get(int index) {
-        if (index >= size || index < 0) return null;
+        if (index >= size || index < 0) {
+            return null;
+        }
         int count = 0;
         StuffNode find = sentinel.next;
         while (count++ < index) {
@@ -166,7 +176,9 @@ public class LinkedListDeque<T> {
     }
 
     private T traverse(int index, StuffNode L) {
-        if (index == 0) return L.item;
+        if (index == 0) {
+            return L.item;
+        }
         return traverse(index - 1, L.next);
     }
 
@@ -177,7 +189,9 @@ public class LinkedListDeque<T> {
      * @return T
      */
     public T getRecursive(int index) {
-        if (index >= size || index < 0) return null;
+        if (index >= size || index < 0) {
+            return null;
+        }
 
         return traverse(index, sentinel.next);
     }
