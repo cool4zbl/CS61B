@@ -10,9 +10,11 @@ public class ArrayDeque<T> {
     private int nextLast;
     private T[] items;
 
+    private int originalSize = 8;
+
     public ArrayDeque() {
         size = 0;
-        items = (T[]) new Object[8];
+        items = (T[]) new Object[originalSize];
         nextFirst = 0;
         nextLast = 1;
     }
@@ -25,14 +27,22 @@ public class ArrayDeque<T> {
 //            addLast((T) other.get(i));
 //        }
 //    }
+
+    // TODO: resizing at `nextLast` == item.length - 1
     private void resize() {
-        if (nextFirst == pulsOne(nextLast) || minusOne(nextFirst) == items.length - 1) {
+        // nextLast 距离 nextFirst 只差一个位置 || nextFirst 距离当前数组最末端只差一个位置
+//        if (nextFirst == pulsOne(nextLast) || minusOne(nextFirst) == items.length - 1) {
+        if (nextFirst == nextLast
+                || nextFirst == items.length - 1
+//                || nextLast == items.length - 1
+        ) {
             int capacity = items.length * 2;
             T[] a = (T[]) new Object[capacity];
             System.arraycopy(items, pulsOne(nextFirst),
-                    a, a.length / 2, size);
+                    a, a.length / originalSize, size);
             items = a;
-            nextFirst = minusOne(a.length / 2);
+            nextFirst = minusOne(a.length / originalSize);
+            nextLast = a.length / originalSize + size;
         }
     }
 
@@ -63,11 +73,10 @@ public class ArrayDeque<T> {
      * @param item
      */
     public void addFirst(T item) {
-        resize();
         items[nextFirst] = item;
         size++;
-
         nextFirst = minusOne(nextFirst);
+        resize();
     }
 
     /**
@@ -76,11 +85,10 @@ public class ArrayDeque<T> {
      * @param item
      */
     public void addLast(T item) {
-        resize();
         items[nextLast] = item;
         size++;
-
         nextLast = pulsOne(nextLast);
+        resize();
     }
 
     /**
@@ -94,9 +102,9 @@ public class ArrayDeque<T> {
             return null;
         }
 
+        // resize();
         nextFirst = pulsOne(nextFirst);
         T item = items[nextFirst];
-        // resize();
         size--;
         return item;
     }

@@ -38,10 +38,6 @@ public class ArrayDequeTest {
         L.addFirst("a");
         // "a" -> "b" -> "d" -> "e"
         assertEquals(4, L.size());
-//        assertEquals("e", L.get(L.getNextLast() - 1));
-//        assertEquals("d", L.get(L.getNextLast() - 2));
-//        assertEquals("a", L.get(L.getNextFirst() + 1));
-//        assertEquals("b", L.get(L.getNextFirst() + 2));
     }
 
     @Test
