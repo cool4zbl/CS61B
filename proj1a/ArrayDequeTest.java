@@ -41,7 +41,7 @@ public class ArrayDequeTest {
     }
 
     @Test
-    public void testAddAndNextFirstAndLast() {
+    public void testAddFirstAndNextLast() {
         ArrayDeque<String> L = new ArrayDeque<>();
         L.addLast("a");
         L.addLast("b");
@@ -50,6 +50,7 @@ public class ArrayDequeTest {
         L.addLast("e");
         L.addFirst("f");
         assertEquals(6, L.size());
+        L.printDeque();
     }
 
     @Test
@@ -130,6 +131,24 @@ public class ArrayDequeTest {
         for (int i = 0; i < N; i += 1) {
             L.addLast(L.get(i));
         }
+    }
+
+    /**
+     * Tests insertion of a large number of items, then remove.
+     */
+    @Test
+    public void testMegaInsertAndRemove() {
+        ArrayDeque<Integer> L = new ArrayDeque<>();
+        int N = 32;
+        for (int i = 0; i < N; i += 1) {
+            L.addLast(i);
+        }
+        assertEquals(N, L.size());
+
+        for (int i = 0; i < N; i += 1) {
+            L.removeLast();
+        }
+        System.out.println(L.size());
     }
 
     public static void main(String[] args) {

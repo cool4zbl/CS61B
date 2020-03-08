@@ -10,7 +10,7 @@ public class ArrayDeque<T> {
     private int nextLast;
     private T[] items;
 
-    private int originalSize = 8;
+    private int originalSize = 4;
 
     public ArrayDeque() {
         size = 0;
@@ -27,22 +27,56 @@ public class ArrayDeque<T> {
 //            addLast((T) other.get(i));
 //        }
 //    }
+    private void generate(int capacity, int newFirst) {
+        T[] a = (T[]) new Object[capacity];
+        System.arraycopy(items, plusOne(nextFirst),
+                a, plusOne(newFirst), size);
 
-    // TODO: resizing at `nextLast` == item.length - 1
+        items = a;
+        nextFirst = newFirst;
+        nextLast = plusOne(nextFirst) + size;
+    }
+
+    /**
+     * Resize when usage ratio < 0.25
+     */
+    private void resize(int size, int itemsLength) {
+        if (4 * size < itemsLength) {
+            int capacity = items.length / 2;
+//            int newFirst = nextFirst - capacity / originalSize;
+            int newFirst = nextFirst / 2;
+            generate(capacity, newFirst);
+        }
+    }
+
+    /**
+     * Rules: 1. nextFirst & nextLast 指向下一个可用的 index.
+     * 2. nextFirst 总是比 nextLast 小
+     * 3. nextLast = plusOne(nextFirst) + size
+     * <p>
+     * Resize:
+     * 0. resize 在任何添加之前 || 任何删除之后？
+     * 1. nextFirst 距离当前数组最末端只差一个位置
+     * 2. minusOne(nextFirst) == items.length - 1
+     * 3. plusOne(nextLast) == items.length - 1
+     */
     private void resize() {
-        // nextLast 距离 nextFirst 只差一个位置 || nextFirst 距离当前数组最末端只差一个位置
-//        if (nextFirst == pulsOne(nextLast) || minusOne(nextFirst) == items.length - 1) {
-        if (nextFirst == nextLast
-                || nextFirst == items.length - 1
-//                || nextLast == items.length - 1
+        if (minusOne(nextFirst) == items.length - 1
+                || nextLast == items.length - 1
         ) {
+
             int capacity = items.length * 2;
-            T[] a = (T[]) new Object[capacity];
-            System.arraycopy(items, pulsOne(nextFirst),
-                    a, a.length / originalSize, size);
-            items = a;
-            nextFirst = minusOne(a.length / originalSize);
-            nextLast = a.length / originalSize + size;
+            int newFirst = nextFirst + capacity / originalSize;
+            generate(capacity, newFirst);
+
+//            T[] a = (T[]) new Object[capacity];
+//            int newFirst = nextFirst + a.length / originalSize;
+//            System.arraycopy(items, plusOne(nextFirst),
+//                    a, plusOne(newFirst), size);
+//
+//            items = a;
+//            nextFirst = newFirst;
+//            nextLast = plusOne(nextFirst) + size;
         }
     }
 
@@ -62,7 +96,7 @@ public class ArrayDeque<T> {
      * @param index
      * @return int index
      */
-    private int pulsOne(int index) {
+    private int plusOne(int index) {
         return (index + 1) % items.length;
     }
 
@@ -73,10 +107,10 @@ public class ArrayDeque<T> {
      * @param item
      */
     public void addFirst(T item) {
+        resize();
         items[nextFirst] = item;
         size++;
         nextFirst = minusOne(nextFirst);
-        resize();
     }
 
     /**
@@ -85,10 +119,10 @@ public class ArrayDeque<T> {
      * @param item
      */
     public void addLast(T item) {
+        resize();
         items[nextLast] = item;
         size++;
-        nextLast = pulsOne(nextLast);
-        resize();
+        nextLast = plusOne(nextLast);
     }
 
     /**
@@ -102,10 +136,12 @@ public class ArrayDeque<T> {
             return null;
         }
 
-        // resize();
-        nextFirst = pulsOne(nextFirst);
+        nextFirst = plusOne(nextFirst);
         T item = items[nextFirst];
         size--;
+
+        resize(size, items.length);
+
         return item;
     }
 
@@ -123,6 +159,9 @@ public class ArrayDeque<T> {
         nextLast = minusOne(nextLast);
         T item = items[nextLast];
         size--;
+
+        resize(size, items.length);
+
         return item;
     }
 
@@ -157,6 +196,9 @@ public class ArrayDeque<T> {
      * Once all the items have been printed, print out a new line.
      */
     public void printDeque() {
+        for (int i = plusOne(nextFirst); i < nextLast; i++) {
+            System.out.println(items[i]);
+        }
     }
 
     public int size() {
