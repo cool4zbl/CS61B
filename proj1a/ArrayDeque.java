@@ -40,8 +40,8 @@ public class ArrayDeque<T> {
     /**
      * Resize when usage ratio < 0.25
      */
-    private void resize(int size, int itemsLength) {
-        if (4 * size < itemsLength) {
+    private void resize(int currentSize, int itemsLength) {
+        if (4 * currentSize < itemsLength) {
             int capacity = items.length / 2;
 //            int newFirst = nextFirst - capacity / originalSize;
             int newFirst = nextFirst / 2;
@@ -140,7 +140,7 @@ public class ArrayDeque<T> {
         T item = items[nextFirst];
         size--;
 
-        resize(size, items.length);
+//        resize(size, items.length);
 
         return item;
     }
@@ -160,7 +160,7 @@ public class ArrayDeque<T> {
         T item = items[nextLast];
         size--;
 
-        resize(size, items.length);
+//        resize(size, items.length);
 
         return item;
     }

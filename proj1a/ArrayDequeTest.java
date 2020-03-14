@@ -139,15 +139,16 @@ public class ArrayDequeTest {
     @Test
     public void testMegaInsertAndRemove() {
         ArrayDeque<Integer> L = new ArrayDeque<>();
-        int N = 32;
+        int N = 100000;
         for (int i = 0; i < N; i += 1) {
             L.addLast(i);
         }
         assertEquals(N, L.size());
 
-        for (int i = 0; i < N; i += 1) {
+        for (int i = 0; i < N - 10; i += 1) {
             L.removeLast();
         }
+        assertEquals(10, L.size());
         System.out.println(L.size());
     }
 
