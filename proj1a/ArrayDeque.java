@@ -2,7 +2,8 @@
  * ArrayDeque
  *
  * @author blz
- * @date 2020-02-24
+ * @created 2020-02-24
+ * @updated 2020-03-22
  */
 public class ArrayDeque<T> {
     private int size;
@@ -68,15 +69,6 @@ public class ArrayDeque<T> {
             int capacity = items.length * 2;
             int newFirst = nextFirst + capacity / originalSize;
             generate(capacity, newFirst);
-
-//            T[] a = (T[]) new Object[capacity];
-//            int newFirst = nextFirst + a.length / originalSize;
-//            System.arraycopy(items, plusOne(nextFirst),
-//                    a, plusOne(newFirst), size);
-//
-//            items = a;
-//            nextFirst = newFirst;
-//            nextLast = plusOne(nextFirst) + size;
         }
     }
 
